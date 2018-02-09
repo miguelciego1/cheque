@@ -1,0 +1,82 @@
+{% extends 'main.html.twig' %}
+{% block css %} 
+ <style>
+     .x_content{
+         height:750px;
+     }
+ </style>
+ {% endblock %}
+{% block body %}
+   
+    <div class="col-md-12">
+     {% for flashMessaje in app.session.flashbag.get ('mensaje')%}
+        <div  class="alert alert-info alert-dismissible" role="alert" >
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+             {{ flashMessaje}}
+        </div>
+    {% endfor%}
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+        <h2>Registro de Beneficiario <small> « Editar »</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {#CONTENIDO#}
+            <br></br>
+            {{ form_start(edit_form) }}
+             
+                <div class="row">   
+                    <div class="form_group as"> 
+                            {{ form_label(edit_form.nombre, 'Nombre :') }}
+                            <div class="col-md-4">
+                                {{ form_errors(edit_form.nombre) }}
+                                {{ form_widget(edit_form.nombre,{ 'attr': {'class' :'form-control as', 'placeholder':''} }) }}
+                            </div><br></br><br></br>
+                    </div>
+                </div>
+                 <div class="row">   
+                    <div class="form_group as"> 
+                            {{ form_label(edit_form.empresa, 'Empresa :') }}
+                            <div class="col-md-4">
+                                {{ form_errors(edit_form.empresa) }}
+                                {{ form_widget(edit_form.empresa,{ 'attr': {'class' :'form-control as', 'placeholder':''} }) }}
+                            </div><BR></BR><br></br>
+                    </div>
+                </div>
+                <div class="row">   
+                    <div class="form_group as"> 
+                            {{ form_label(edit_form.correo, 'Correo :') }}
+                            <div class="col-md-4">
+                                {{ form_errors(edit_form.correo) }}
+                                {{ form_widget(edit_form.correo,{ 'attr': {'class' :'form-control as', 'placeholder':' '} }) }}
+                            </div><br></br><br></br>
+                    </div>
+                </div>
+                
+                <div class="row">   
+                    <div class="form_group as"> 
+                            {{ form_label(edit_form.nitci, 'NIT / C.I. :') }}
+                            <div class="col-md-4">
+                                {{ form_errors(edit_form.nitci) }}
+                                {{ form_widget(edit_form.nitci,{ 'attr': {'class' :'form-control as', 'placeholder':' '} }) }}
+                            </div>
+                    </div>
+                </div>
+                
+               
+                {{ form_widget(edit_form) }}
+                <br></br>
+                <BR></BR>
+                <div class="col-md-8">
+                    <a class="btn btn-default" href="{{ path('benficiario_index') }}">Volver Atrás</a>
+                    <input class="btn btn-primary pull-right" type="submit" value="Modificar" />
+                </div>
+            {{ form_end(edit_form) }}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

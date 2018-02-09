@@ -1,0 +1,94 @@
+{% extends 'main.html.twig' %}
+ {% block css %} 
+ <style>
+     .asd{
+         margin-right:20px;
+     }
+     .x_content{
+         height:650px;
+     }
+ </style>
+ {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-md-12">
+         {% for flashMessaje in app.session.flashbag.get ('mensaje')%}
+            <div  class="alert alert-success alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+        <div class="x_panel">
+               <div class="page-title">
+                    <div class="title_left">
+                        <h2>Revertir Cheque <small> ({{pagination.getTotalItemCount}})</small></h2>
+                    </div>
+                    <div class="title_right">
+                        <form method="get" action="" class="form-inline" role="search">
+                            <div class="form-group pull-right top_search ">
+                              <div class="input-group">
+                                <input type="text" value="{{ app.request.get('query') }}" name="query" class="form-control" placeholder="Nro de Cheque ">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <div class="x_title">
+            <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {#CONTENIDO#}
+                 <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nro Cheque</th>
+                            <th>Monto</th>
+                            <th>Beneficiario</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for cheque in pagination %}
+                        <tr>
+                            <td>{{ cheque.id }}</td>
+                            <td>{{ cheque.cheque }}</td>
+                            <td>{{ cheque.monto }}</td>
+                            <td>{{ cheque.nombre }}</td>
+                            <td>
+                                {% if cheque.estado == 4 %}
+                                  <span class="label label-warning">Revertido</span>
+                                {% endif%}
+                                {% if cheque.estado == 3 %}
+                                  <span class="label label-danger">Anulado</span>
+                                {% endif%}
+                                {% if cheque.estado < 3 %}
+                                 <a class="btn btn-warning" href="{{ path('cheque_revertir', { 'id': cheque.id }) }}"  onclick="return confirm('¿ Esta usted seguro de revertir el Cheque ?')">
+                                 <i class="fa fa-retweet" aria-hidden="true"></i></a>
+                                 {% endif%}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="navigation">
+          {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

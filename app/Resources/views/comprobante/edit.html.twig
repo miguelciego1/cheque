@@ -1,0 +1,130 @@
+{% extends 'main.html.twig' %}
+
+{%  block css %}
+   <style>
+    .target{
+        Display:none;
+    }
+    .x_content{
+        height:700px;
+    }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="col-md-12">
+        {% for flashMessaje in app.session.flashbag.get ('mensaje')%}
+            <div  class="alert alert-info alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+        {% for flashMessaje in app.session.flashbag.get ('advertencia')%}
+            <div  class="alert alert-warning alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+            <h2>Editar Comprobante </h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+                <div class="col-md-12">
+                {{ form_start(edit_form) }}
+                <br></br>
+                 <div class="form_group">
+                        <div class="row">
+                                {{ form_label(edit_form.fecha, 'Fecha registro :') }}
+                            <div class="col-md-5">
+                                {{ form_errors(edit_form.fecha) }}
+                                {{ form_widget(edit_form.fecha ,{ 'attr': {'class' :'datepicker', 'placeholder':''} }) }}
+                            </div>
+                        </div>
+                    </div>
+                     <div class="target">
+                            <div class="row">
+                                {{ form_label(edit_form.Usuario, 'usuario') }} 
+                  
+                            <div class="col-md-5">
+                                {{ form_errors(edit_form.Usuario) }}
+                                {{ form_widget(edit_form.Usuario,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                            </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="form_group"> 
+                        <br></br>
+                            
+                                {{ form_label(edit_form.bte,'N° comprobante :') }}
+                          
+                                <div class="col-md-5">
+                                    {{ form_errors(edit_form.bte) }}
+                                    {{ form_widget(edit_form.bte,{ 'attr': {'class' :'form-control ', 'placeholder':''} }) }}
+                                </div>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div class="form_group">
+                        
+                            <div class="row">
+                                {{ form_label(edit_form.docres, 'Documento de Respaldo :') }} 
+                  
+                            <div class="col-md-5">
+                                {{ form_errors(edit_form.docres) }}
+                                {{ form_widget(edit_form.docres,{ 'attr': {'class' :'form-control'} }) }}
+                            </div>
+                            </div><br></br>
+                    </div>
+                    <div class="form_group">
+                        
+                            <div class="row">
+                                {{ form_label(edit_form.glosa, 'Descripcion de Transaccion :') }} 
+                  
+                            <div class="col-md-5">
+                                {{ form_errors(edit_form.glosa) }}
+                                {{ form_widget(edit_form.glosa,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                            </div>
+                            </div><br></br>
+                    </div>
+                    <div class="col-md-7">
+                        <br></br>
+                        <input class="btn btn-primary pull-right" type="submit" value="Modificar" />
+                        <a class="btn btn-default pull-right" href="{{ path('comprobante_index') }}">Volver Atrás</a>
+                    </div>
+                {{ form_widget(edit_form) }}
+            {{ form_end(edit_form) }}
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+     $('.datepicker').datepicker({
+      locale: 'no',
+      format: 'yyyy-mm-dd'
+      });
+        var clic = 1;
+        function ocultar(){ 
+           if(clic==1){
+           document.getElementById("null").style.height = "200px";
+           clic = clic + 1;
+           } else{
+               document.getElementById("null").style.height = "0px";      
+            clic = 1;
+           }   
+        }
+        var grandTotal =0;
+        $(function () {
+          $("[id*=amtlbl]").each(function () {
+            grandTotal= grandTotal + parseFloat($(this).html());
+          });
+          $("[id*=totlbl]").html("Total = " + grandTotal.toString());
+        });
+   </script>
+ {% endblock %}

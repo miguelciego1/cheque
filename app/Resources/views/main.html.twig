@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Caja Petrolera de Salud{% block titulo %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/Date/css/datepicker.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/base.css') }}" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/base.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
+
+    <link href="{{ asset('build/css/jquery-ui-1.10.4.custom.css') }}" rel="stylesheet">
+    <script src="{{ asset('vendors/jquery/dist/jquery-1.10.2.js') }}"></script>
+    <script src="{{ asset('vendors/jquery/dist/jquery-ui-1.10.4.custom.min.js') }}"></script>
+    <link rel="icon" type="image/x-icon" href="{{ asset('logo.png') }}" />
+   {% block css %} {% endblock %}
+   {% block js %}  {% endblock %}
+    <!-- Custom Theme Style -->
+  </head>
+
+  <body onload="nobackbutton()" class="{% block tipoPagina %}nav-md{% endblock %}">
+    <div class="container body">
+      <div class="main_container">
+        
+        {{ include('sidebarMenu.html.twig') }}
+        
+        {{ include('topNavigation.html.twig') }}
+        
+        <div class="right_col" role="main" >
+          {% block body %}{% endblock %}        
+        </div>
+       
+        {{ include('footer.html.twig') }}
+        
+      </div>
+    </div>
+
+    {% block javascript %}
+     <!-- jQuery -->
+    <script src="{{ asset('vendors/jquery/dist/push.min.js') }}"></script>
+    <script src="{{ asset('vendors/jquery/dist/jquery.formatCurrency.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('vendors/bootstrap/dist/js/bootbox.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>   
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('build/js/custom.min.js') }}"></script>
+    <script src="{{ asset('build/js/confirmar.min.js') }}"></script>
+    <!-- Datatables -->
+    <script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>
+    <script src="{{ asset('vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
+    <script src="{{ asset('vendors/jszip/dist/jszip.min.js')}}"></script>
+    <script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js')}}"></script>
+    <script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js')}}"></script>
+    {% endblock %}
+    {% block jss %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,146 @@
+{% extends 'main.html.twig' %}
+ {% block css %} 
+ <style>
+     .asd{
+         margin-right:20px;
+     }
+     .mar{
+         margin-right:50px;
+     }
+     .x_content{
+         height:100%;
+     }
+ </style>
+ {% endblock %}
+{% block body %}
+ 
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+               <div class="page-title">
+                    <div class="title_left">
+                        <h2>Buscador de cheques por Nombre</h2>
+                    </div>
+                    <div class="title_right">
+                        <form method="get" action="" class="form-inline" role="search">
+                            <div class="form-group pull-right top_search ">
+                              <div class="input-group">
+                                <input type="text" value="{{ app.request.get('query') }}" name="query" class="form-control" placeholder="Ingrese el Nombre">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <div class="x_title">
+            <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {#CONTENIDO#}
+                <div class="row">
+                    <div class="col-md-12">
+                        <table value="tabla1" id="tabla" class="table table-striped table-hover mtop">
+                            <thead>
+                                <tr>
+                                    <th><span class="noprint">DIA</span> <span class="print">DIA</span></th>
+                    
+                                    <th><span class="noprint">CONCEPTO</span> <span class="print">CONCEPTO</span></th></th>
+                    
+                                    <th class="tuplareporte4"><span class="noprint">EMPRESA</span><span class="print">EMPRESA</span></th>
+                    
+                                    <th class="tuplareporte3"><span class="noprint">Nº CHEQUE</span><span class="print">Nº CHEQUE</span></th>
+                    
+                                    <th class="tuplareporte2"><span class="noprint">Nº CP</span><span class="print">N° CP</span></th>
+                    
+                                    <th class="tuplareporte"><span class="noprint">Nº VAL </span><span class="print"> Nº VAL</span></th>
+                    
+                                    <th><span class="noprint">HABER</span><span class="print">HABER</span></th>
+                    
+                                    <th><span class="noprint">ESTADO</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for cheque in lista %}
+                                <tr>
+                                    <td>
+                                        {{ cheque.fecha |date('d/m/Y') }}
+                                    </td>
+                                    <td class="fila">
+                                        {% if cheque.estado != 3%}
+                                            {{ cheque.glosa}}
+                                        {% endif %}
+                                        {% if cheque.estado == 3 %}
+                                            <center>ANULADO</center>
+                                         {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if cheque.estado != 3 %}
+                                            {{ cheque.nombre }}
+                                         {% endif %}
+                                    </td>
+                                    <td>{{ cheque.cheque }}</td>
+                                    <td>
+                                        {% if cheque.estado != 3 %}
+                                            {{ cheque.docres }}
+                                         {% endif %}
+                                        
+                                    </td>
+                                    <td>
+                                        {% if cheque.estado != 3 %}
+                                            {{ cheque.bte }}
+                                         {% endif %}
+                                    </td>
+                                    <td id="amtlbl" >
+                                        {% if cheque.estado < 3 or cheque.estado == 5 %}
+                                            {{ cheque.monto }}
+                                         {% endif %}
+                                         {% if cheque.estado == 3 or cheque.estado == 4 %}
+                                            0
+                                         {% endif %}
+                                    </td>     
+                                    <td class="noprint">
+                                        {% if cheque.estado == 1 %}
+                                        <span class="label label-default">No impreso</span>
+                                        {% endif %}
+                                        
+                                        {% if cheque.estado == 2 %}
+                                        <span class="label label-success">Impreso</span>
+                                        {% endif %}
+                                        
+                                        {% if cheque.estado == 3 %}
+                                        <span class="label label-danger">
+                                            Anulado</span>
+                                        {% endif %}
+                                        {% if cheque.estado == 4 %}
+                                        <span class="label label-warning">
+                                            Revertido</span>
+                                        {% endif %}
+                                        {% if cheque.estado == 5 %}
+                                            <span class="label label-primary">
+                                            Entregado</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                              
+                            {% endfor %}
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {# paginacion#}
+                        <div class="navigation">
+                            {{ knp_pagination_render(lista) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

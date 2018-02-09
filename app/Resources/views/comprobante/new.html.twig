@@ -1,0 +1,122 @@
+{% extends 'main.html.twig' %} {% block css %}
+<style>
+    .as {
+        margin-top: 5px;
+    }
+
+    .x_panel {
+        height: 100%;
+    }
+
+    .target {
+        Display: none;
+    }
+</style>
+{{ form_stylesheet(form) }} {% endblock%} {% block js %} {{ form_javascript(form) }} {% endblock %} {% block body %}
+
+<div class="col-md-12">
+    {% for flashMessaje in app.session.flashbag.get ('mensaje')%}
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button> {{ flashMessaje}}
+    </div>
+    {% endfor%}
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+            <h2>Registro de Comprobante</label> <small></small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {{ form_start(form, { 'attr' : {'novalidate':'novalidate', 'role': 'form'} }) }}
+            <div class="row">
+                <div class="form_group">
+                    <br></br>
+                    {{ form_label(form.bte,'N° comprobante :') }}
+                    <div class="col-md-5">
+                        {{ form_errors(form.bte) }} {{ form_widget(form.bte,{ 'attr': {'class' :'form-control ', 'placeholder':''} }) }}
+                    </div>
+                </div>
+            </div>
+            <div class="target">
+                <div class="row">
+                    {{ form_label(form.Usuario, 'usuario') }}
+
+                    <div class="col-md-5">
+                        {{ form_errors(form.Usuario) }} {{ form_widget(form.Usuario,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <div class="form_group">
+
+                <div class="row">
+                    {{ form_label(form.docres, 'Documento de Respaldo :') }}
+
+                    <div class="col-md-5">
+                        {{ form_errors(form.docres) }} {{ form_widget(form.docres,{ 'attr': {'class' :'form-control'} }) }}
+                    </div>
+                </div><br></br>
+            </div>
+            <div class="form_group">
+
+                <div class="row">
+                    {{ form_label(form.glosa, 'Descripcion de Transaccion :') }}
+
+                    <div class="col-md-5">
+                        {{ form_errors(form.glosa) }} {{ form_widget(form.glosa,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                    </div>
+                </div><br></br>
+            </div>
+            <div class="form_group">
+                <div class="x_title">
+                    <h2>Fecha de impresión <small>  (Cheque) </small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <br></br>
+                <div class="row">
+                    {{ form_label(form.fecha, 'Fecha :') }}
+                    <div class="col-md-5">
+                        {{ form_errors(form.fecha) }} {{ form_widget(form.fecha,{ 'attr': {'class' :'datepicker', 'placeholder':''} }) }}
+                    </div>
+                </div>
+            </div>
+            <br></br>
+
+            <div class="col-md-7">
+                <br></br>
+                <input class="btn btn-success pull-right" type="submit" value="Guardar" />
+                <a class="btn btn-default pull-right" href="{{ path('comprobante_index') }}"> Volver Atrás </a>
+            </div>
+            {{ form_widget(form) }} {{ form_end(form) }}
+            <br>
+    </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $('.datepicker').datepicker({
+        locale: 'no',
+        format: 'dd-mm-yyyy'
+    });
+    var clic = 1;
+    function ocultar() {
+        if (clic == 1) {
+            document.getElementById("null").style.height = "200px";
+            clic = clic + 1;
+        } else {
+            document.getElementById("null").style.height = "0px";
+            clic = 1;
+        }
+    }
+    var grandTotal = 0;
+    $(function () {
+        $("[id*=amtlbl]").each(function () {
+            grandTotal = grandTotal + parseFloat($(this).html());
+        });
+        $("[id*=totlbl]").html("Total = " + grandTotal.toString());
+    });
+</script>
+{% endblock %}

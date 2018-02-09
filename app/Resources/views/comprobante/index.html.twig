@@ -1,0 +1,81 @@
+{% extends 'main.html.twig' %} {% block css %}
+<style>
+    .x_content {
+        height: 100%;
+    }
+
+    .fila {
+        width: 800px;
+    }
+</style>
+{% endblock%} {% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+                {% for flashMessaje in app.session.flashbag.get ('error')%}
+                    <div  class="alert alert-danger alert-dismissible" role="alert" >
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        {{ flashMessaje}}
+                    </div>
+                {% endfor%}
+            <div class="page-title">
+                <div class="title_left">
+                    <h2>Lista de Comprobante<small> ({{pagination.getTotalItemCount}})</small></h2>
+                </div>
+                <div class="title_right">
+                    <form method="get" action="" class="form-inline" role="search">
+                        <div class="form-group pull-right top_search ">
+                            <div class="input-group">
+                                <input type="text" value="{{ app.request.get('query') }}" name="query" class="form-control" placeholder="Nro de Comprobante">
+                                <span class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="x_title">
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Comprobante</th>
+                            <th>Documento Respaldo</th>
+                            <th class="fila">Descripción Transacción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comprobante in pagination %}
+                        <tr>
+                            <td>{% if comprobante.fecha %}{{ comprobante.fecha|date('d/m/Y') }}{% endif %}</td>
+                            <td>{{ comprobante.bte }}</td>
+                            <td>{{ comprobante.docres }}</td>
+                            <td>{{ comprobante.glosa | capitalize }}</td>
+                            <td>
+                                <a title="Ver Comprobante" class="btn btn-default" href="{{ path('comprobante_show', { 'id': comprobante.id }) }}"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+                                <a title="Editar Comprobante" class="btn btn-primary" href="{{ path('comprobante_edit', { 'id': comprobante.id }) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {# paginacion#}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

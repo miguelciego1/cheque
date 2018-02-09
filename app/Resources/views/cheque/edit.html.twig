@@ -1,0 +1,109 @@
+{% extends 'main.html.twig' %}
+{% block css %}
+    <style>
+    .x_panel{
+        height:800px;
+    }
+    .target{
+        Display:none;
+    }
+    .as{
+        margin-top:10px;
+    }
+    .ancho{
+        width:100%;
+    }
+    </style>
+    {{ form_stylesheet(edit_form) }}
+{% endblock %} 
+{% block js %}
+    {{ form_javascript(edit_form) }}
+{% endblock %}
+{% block body %}
+<div class="col-md-12">
+        {% for flashMessaje in app.session.flashbag.get ('mensaje')%}
+            <div  class="alert alert-info alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+        {% for flashMessaje in app.session.flashbag.get ('advertencia')%}
+            <div  class="alert alert-warning alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+            <h2>Revisar </strong><small></small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                    </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li>
+                            Eliminar
+                          </li>
+                        </ul>
+                      </li>
+
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {#CONTENIDO#}
+                {{ form_start(edit_form) }}
+            
+                <div class="row">   
+                    <div class="form_group as"> 
+                            {{ form_label(edit_form.cheque, 'Nro Cheque :') }}
+                            <div class="col-md-4">
+                                {{ form_errors(edit_form.cheque) }}
+                                {{ form_widget(edit_form.cheque,{ 'attr': {'class' :'form-control as', 'placeholder':'Nro de cheque'} }) }}
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form_group as"> 
+                        {{ form_label(edit_form.monto, 'Parcial :') }}
+                        <div class="col-md-4">
+                            {{ form_errors(edit_form.monto) }}
+                            {{ form_widget(edit_form.monto,{ 'attr': {'class' :'form-control as', 'placeholder':'Monto del cheque'} }) }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form_group as"> 
+                        {{ form_label(edit_form.benficiario, 'Beneficiario :') }}
+                        <div class="col-md-4">
+                            {{ form_errors(edit_form.benficiario) }}
+                            {{ form_widget(edit_form.benficiario,{ 'attr': {'class' :'form-control as', 'placeholder':'Páguese a la orden de : (Nombre del Beneficiario)' }}) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_widget(edit_form) }}
+                <br></br>
+                <div class="row">
+                    <div class="col-md-6">
+                       
+                         
+                         <input class="btn btn-primary pull-right" type="submit" value="Modificar" />
+                        <a class="btn btn-default pull-right" href="{{ path('cheque_new') }}"><i class="fa fa-reply" aria-hidden="true"></i> Volver</a>
+                        
+                        
+                    </div>
+                </div>
+            {{ form_end(edit_form) }}
+            
+            <br></br>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

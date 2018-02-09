@@ -1,0 +1,197 @@
+{% extends 'main.html.twig' %}
+{% block css %}
+<style type="text/css">
+    .contenedorCheque {
+        background-image: url("{{ asset('img_cheque.png') }}");
+        width: 627px;
+        height: 264px;
+        font-family: arial;
+        color: #000;
+    }
+
+    h5 {
+        font-weight: bold;
+    }
+
+    .superior {
+        width: 100%;
+        height: 20%;
+    }
+
+    .inferior {
+        width: 100%;
+        height: 80%;
+    }
+
+    label {
+
+        margin: 0;
+        padding-top: 0;
+    }
+
+    .letr {
+        font-size: 12px;
+        bold: 0;
+    }
+
+    .fecha {
+        margin-left: 215px;
+        padding-top: 26px;
+    }
+
+    .monto {
+        margin-top: 36px;
+        margin-right: 45px;
+    }
+
+    .nombre {
+        display: block;
+        padding-top: 14px;
+        margin-left: 85px;
+        font-size: 12.5px;
+    }
+
+    .numeroLetra {
+        display: block;
+        padding-top: 5px;
+        margin-left: 85px;
+        margin-right: 2px;
+        font-size: 12.5px;
+    }
+</style>
+{% endblock %}
+{% block body %}
+    
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Cheque<small> ({{ cheque.cheque }})</small></h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <div class="row"><br>
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-12 col-sm-12">
+                    <div class="container">
+                        <div id="myPrintArea">
+                            <div class="contenedorCheque">
+                                <div class="superior">
+                                <label class="fecha"><span class="letr">Santa Cruz, {{fecha}}</span></label>
+                                <label for="money" id="currencyField" class="monto pull-right ">{{cheque.monto}}</label>
+                                </div>
+                                <div class="inferior">
+                                <label class="nombre">{{cheque.benficiario}}</label>
+                                <label class="numeroLetra">*** {{ montoLiteral }} ***</label>
+                                </div>
+                            </div>
+                        </div>
+                        {% if cheque.estado == 2 and app.user.servicio.id == 4%}
+                        <a href=" {{ path('cheque_entrega', {'id': cheque.id }) }}" onclick="return confirm('¿ Esta usted seguro ?')"
+                        class="btn btn-primary pull-right">Entregar <i class="fa fa-check" aria-hidden="true"></i>
+                        </a>
+                        {% endif %}
+                        <a onclick="history.back()"  class="btn btn-default pull-right">Volver Atrás</a>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="x_title">
+                        <h2>Comprobante</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <strong>Codigo : </strong> {{ cheque.comprobante.id }} <br></br>
+                    <strong>Documento de Respaldo :</strong> {{ cheque.comprobante.docres }}<br></br>
+                    <strong>Fecha de Impresión: </strong>{{ cheque.comprobante.fecha|date('d/m/Y') }} <br></br>
+                    <strong>Descripcion de Transaccion : </strong>{{ cheque.comprobante.glosa | capitalize}}<br></br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <legend>Seguimiento</legend>
+        {% set entregar = 0 %}
+        {% set valor = 0 %}
+        {% set count = 0 %}
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered dataTable no-footer" role="grid">
+                <thead>
+                <th>Codigo</th>
+                <th>Servicio</th>
+                <th>Recibido El</th>
+                <th><center>Seguimiento</center></th>
+                </thead>
+                <tbody>
+                {% for item in cheque.comprobante.movimiento %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.servicio }}</td>
+                        <td>
+                            {% if item.recibidoEL != null %}
+                                {% set valor = 1 %}
+                                {{ item.recibidoEL | date('d/m/Y') }}
+                            {% endif %}
+                            {% if item.recibidoEL == null %}
+                                {% set valor = 2 %}
+                                Sin Recibir
+                            {% endif %}
+                        </td>
+                        {% set entregar = item.servicio.id %}
+                        <td>
+                            <center>
+                                {% if valor == 1 %}
+                                    <i style="color:#1fa67a" class="fa fa-check-circle fa-lg"></i>
+                                {% endif %}
+                                {% if valor == 2 %}
+                                    <i style="color:red" class="fa fa-times-circle fa-lg"></i>
+                                {% endif %}
+                            </center>
+                        </td>
+                    </tr>
+                    {% set count = count + 1 %}
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if count <= 0 %}
+                <div  class="alert alert-warning alert-dismissible" role="alert" >
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    El cheque seleccionado no tiene seguimiento, Toma como referencia la fecha de impresion.
+                </div>
+            {% endif %}
+        </div>
+        {#<div class="col-md-12">#}
+            {#{% if entregar == 4 and valor == 1 %}#}
+            {#<a href=" {{ path('cheque_entrega') }}" class="btn btn-success pull-right">Entregar</a>#}
+            {#{% endif %}#}
+            {#<a  onclick="history.back()" class="btn btn-default pull-right">Volver Atrás</a>#}
+        {#</div>#}
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<!-- jQuery -->
+<script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('vendors/jquery/dist/jquery.priceformat.min.js') }}"></script>
+<script src="{{ asset('vendors/jquery/dist/jquery.PrintArea.js') }}"></script>
+<script src="{{ asset('vendors/jquery/dist/NumeroALetras.js') }}"></script>
+<!-- Bootstrap -->
+<script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<!-- FastClick -->
+<script src="{{ asset('vendors/fastclick/lib/fastclick.js') }}"></script>
+<!-- NProgress -->
+<script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>
+{% block javascripts %}{% endblock %}
+
+<!-- Custom Theme Scripts -->
+<script src="{{ asset('build/js/custom.min.js') }}"></script>
+<script type="text/javascript">
+
+       $(document).ready(function()
+       {   
+          
+           $('#currencyField').priceFormat({
+               prefix: '',
+       centsSeparator: ',',
+         thousandsSeparator: '.'
+           });
+       });
+   </script>
+{% endblock %}

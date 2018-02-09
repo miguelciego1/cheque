@@ -1,0 +1,64 @@
+{% extends 'main.html.twig' %}
+ {% block css %} 
+ <style>
+     .x_content{
+         height:750px;
+     }
+ </style>
+ {% endblock %}
+{% block body %}
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+            <h2>Registro de Beneficiario <small> « Nuevo »</small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {{ form_start(form, { 'attr' : {'novalidate':'novalidate', 'role': 'form'} }) }}
+                    <div class="form_group">
+                        <br></br>
+                        <div class="row">
+                                {{ form_label(form.nombre, 'Nombre del Beneficiario :') }} 
+                        <div class="col-md-5">
+                                {{ form_errors(form.nombre) }}
+                                {{ form_widget(form.nombre,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                        </div></div><br></br>
+                    </div>
+                    <div class="form_group">
+                        <div class="row">
+                                {{ form_label(form.empresa, 'Nombre de la Empresa :') }} 
+                        <div class="col-md-5">
+                                {{ form_errors(form.empresa) }}
+                                {{ form_widget(form.empresa,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                        </div></div><br></br>
+                    </div>
+                    <div class="form_group">
+                        <div class="row">
+                                {{ form_label(form.nitci, 'NIT o C.I del Beneficiario :') }} 
+                        <div class="col-md-5">
+                                {{ form_errors(form.nitci) }}
+                                {{ form_widget(form.nitci,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                        </div></div><br></br>
+                    </div>
+                    <div class="form_group">
+                        <div class="row">
+                                {{ form_label(form.correo, 'Correo Electrónico :') }} 
+                        <div class="col-md-5">
+                                {{ form_errors(form.correo) }}
+                                {{ form_widget(form.correo,{ 'attr': {'class' :'form-control', 'placeholder':''} }) }}
+                        </div></div><br></br>
+                    </div>
+                   
+                        {{ form_widget(form) }}
+                         <div class="col-md-8">
+                        <br></br>
+                        <a class="btn btn-default" href="{{ path('benficiario_index') }}"> Volver Atrás </a>
+                        <input class="btn btn-success pull-right" type="submit" value="Guardar" />
+                    </div>
+                    {{ form_end(form) }}
+                   
+                {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

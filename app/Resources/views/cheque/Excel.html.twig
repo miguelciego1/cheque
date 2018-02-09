@@ -1,0 +1,105 @@
+{% extends 'main.html.twig' %}
+ {% block css %} 
+ <style>
+     .asd{
+         margin-right:20px;
+     }
+     .mar{
+         margin-right:50px;
+     }
+     .x_content{
+         height:650px;
+     }
+     .cuar{
+         position:absolute;
+         bottom:0;
+         right:0;
+         width:150px;
+         height:150px;
+     }
+ </style>
+ {% endblock %}
+{% block body %}
+ 
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+               <div class="page-title">
+                    <div class="title_left">
+                        <h2>Exportar Lista de Cheques en Excel<small></small></h2>
+                    </div>
+                </div>
+            <div class="x_title">
+            <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {#CONTENIDO#}
+                 <label>Nota :</label> Seleccione la <strong>fecha</strong> de inicio y final para generar el reporte y ser exportado en Excel.
+                 <br></br>
+                <div class=" well row">
+                    <div class="">
+                        {{form_start(form)}}
+                        <div class="form_group "> 
+                                
+                                <div class="col-md-4">
+                                    
+                                    {{ form_label(form.fechaini, 'Inicio :') }} 
+                                    <div class="col-md-6">
+                                        {{ form_errors(form.fechaini) }}
+                                        {{ form_widget(form.fechaini,{ 'attr': {'class' :'datepicker', 'type' : 'date' }}) }}
+                                    </div>
+                                    
+                                </div>
+                               
+                                <div class="col-md-4">
+                                    
+                                    {{ form_label(form.fechafin, 'Final :') }} 
+                                    <div class="col-md-6">
+                                         {{ form_errors(form.fechafin) }}
+                                         {{ form_widget(form.fechafin,{ 'attr': {'class' :'datepicker', 'type' : 'date'} }) }}
+                                    </div>
+                                    
+                                </div>
+                        
+                            {{form_widget(form)}}
+                            <div class="col-md-4">
+                                 <input class="btn btn-success pull-left" type="submit" value="Exportar Excel" />
+                            </div>
+                            {{form_end(form)}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Valores definidos a tomar en cuenta para filtrar en Excel</label><br></br>
+                        <table>
+                            <th>
+                                <strong>1 = </strong> <br></br>
+                                <strong>2 = </strong> <br></br>
+                                <strong>3 = </strong> <br></br>
+                                <strong>4 = </strong> <br></br>
+                            </th>
+                            <td>
+                                <span class="label label-default"> No impreso</span><br></br>
+                                <span class="label label-success"> Impreso</span><br></br>
+                                <span class="label label-danger"> Anulado</span><br></br>
+                                <span class="label label-warning"> Revertido</span><br></br>
+                            </td>
+                        </table>
+                    </div>
+                </div>
+                <img class="cuar pull-right" src="{{asset('excel.png')}}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script>
+     $('.datepicker').datepicker({
+      locale: 'no',
+      format: 'yyyy-mm-dd'
+      });
+</script>
+{% endblock %}

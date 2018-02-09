@@ -1,0 +1,52 @@
+{% extends 'main.html.twig' %}
+{% block css %} 
+ <style>
+     .x_content{
+         height:650px;
+     }
+ </style>
+ {% endblock %}
+{% block body %}
+    <div class="col-md-12">
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+        <H2><h2>Detalle del benficiario {{benficiario.nombre }} </h2>
+        </H2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {#CONTENIDO#}
+        <table class="table well">
+        <tbody>
+            <tr>
+                <th>Codigo :</th>
+                <td>{{ benficiario.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre :</th>
+                <td>{{ benficiario.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Empresa :</th>
+                <td>{{ benficiario.empresa }}</td>
+            </tr>
+            <tr>
+                <th>Correo Electrónico :</th>
+                <td>{{ benficiario.correo }}</td>
+            </tr>
+            <tr>
+                <th>NIT / C.I :</th>
+                <td>{{ benficiario.nitci }}</td>
+            </tr>
+        </tbody>
+    </table>
+            <a class="btn btn-default" href="{{ path('benficiario_index') }}">Volver Atrás</a>
+
+            <a class="btn btn-primary" href="{{ path('benficiario_edit', { 'id': benficiario.id }) }}">Modificar</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,115 @@
+  <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="{{ path('homepage') }}" class="site_title">
+                <img src="{{ asset('logo.png') }}" alt="..." class="cuader">
+                 <span class="titlepage">Caja Petrolera de Salud</span></a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="profile">
+              <div class="profile_pic">
+                <img src="{{ asset('production/images/img.jpg') }}" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Bienvenido,{{ app.user}}</span>
+                <h2></h2>
+              </div>
+            </div>
+            <br />
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <center><h3>{{ app.user.servicio.nombre}}</h3></center>
+                <ul class="nav side-menu">
+                 {#--------------------------------------MOVIMIENTO------------------------------------------#}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    {% elseif is_granted('ROLE_USER') %}
+                      {% if app.user.permiso.m1 == 1 %}
+                        <li><a><i class="fa fa-list-ol" aria-hidden="true"></i>
+                            Seguimiento<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            {% if app.user.servicio.id != 5 %}
+                              <li><a href="{{ path('movimiento_listado', { 'estado':'1' }) }}">Recibidos</a></li>
+                              <li><a href="{{ path('movimiento_listado', { 'estado':'2' }) }}">Enviados</a></li>
+                            {% endif %}
+                            {% if app.user.servicio.id == 5 %}
+                              <li><a href="{{ path('movimiento_historial') }}">Historial</a></li>
+                            {% endif %}
+                          </ul>
+                        </li>
+                      {% endif %}
+                    {% endif %}
+                  {#--------------------------------------COMPROBANTE------------------------------------------#}
+                    {% if  app.user.servicio.id == 1 %}
+                  <li><a><i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        Comprobante<span class="fa fa-chevron-down"></span>
+                      </a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{path('comprobante_index')}}">Lista de Comprobante</a></li>
+                    </ul>
+                  </li>
+                  {#--------------------------------------CHEQUES------------------------------------------#}
+                  <li><a><i class="fa fa-credit-card" aria-hidden="true"></i> Cheques<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{path('cheque_index')}}">Buscar cheque</a></li>
+                      {% if  app.user.permiso.r1 == 1 %}
+                        <li><a href="{{path('cheque_revertido')}}">Revertir Cheque</a></li>
+                      {% endif %}
+                      <li><a href="{{path('cheque_anulado')}}">Cheques anulado</a></li>
+
+                    </ul>
+                  </li>
+                  {#--------------------------------------BENEFICIARIO------------------------------------------#}
+                  <li>
+                    <a><i class="fa fa-user" aria-hidden="true"></i>
+                        Beneficiario<span class="fa fa-chevron-down"></span>
+                      </a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{path('benficiario_index')}}">Lista de Beneficiario</a></li>
+                    </ul>
+                  </li>
+                  {#--------------------------------------BUSCADOR------------------------------------------#}
+                  <li><a><i class="fa fa-search" aria-hidden="true"></i>
+                    Buscar<span class="fa fa-chevron-down"></span>
+                    </a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{path('bus')}}">Buscar por Nombre</a></li>
+                      <li><a href="{{path('busnro')}}">Buscar por Nro Cheque</a></li>
+                    </ul>
+                  </li>
+                    {% endif %}
+                    {% if  app.user.servicio.id != 1 and app.user.servicio.id != 5 %}
+                    <li><a><i class="fa fa-credit-card" aria-hidden="true"></i> Cheques<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{{path('bus_cheque')}}">Buscar por nombre</a></li>
+                        <li><a href="{{path('bus_nro_cheque')}}">Buscar por número</a></li>
+                        {% if app.user.servicio.id == 4 %}
+                            <li><a href="{{path('entregados')}}">Cheques Entregados</a></li>
+                        {% endif %}
+                      </ul>
+                    </li>
+                    {% endif %}
+                    {#--------------------------------------reporte------------------------------------------#}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    {% elseif is_granted('ROLE_USER') %}
+                      {% if app.user.servicio.id < 5 %}
+                        <li><a><i class="fa fa-pie-chart" aria-hidden="true"></i>
+                                Reportes<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                {#<li><a target="_blank"  href="cheque_reporte">Reporte de Cheques </a></li>#}
+                                {% if app.user.servicio.id == 1 %}
+                                    <li><a  target="" href="{{path('cheque_reporte_usuario')}}">Reporte Por Usuario </a></li>
+                                    <li><a  target="" href="{{path('cheque_reporte')}}">Reporte de Cheques General </a></li>
+                                {% endif %}
+                                {% if  app.user.permiso.e1 == 1 %}<li><a  target="" href="{{path('cheque_reporte_excel')}}">Generar Reporte Excel </a></li> {% endif %}
+                                {% if app.user.permiso.m1 == 1 %}
+                                  <li><a href=" {{ path('seguimiento_reporte') }} ">Reporte de Seguimiento</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                      {% endif %}
+                    {% endif %}
+                </ul>
+              </div>
+         </div>
+    </div>
+</div>

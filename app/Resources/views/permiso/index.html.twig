@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Permisos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Permisode</th>
+                <th>Glosa</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for permiso in permisos %}
+            <tr>
+                <td><a href="{{ path('permiso_show', { 'id': permiso.id }) }}">{{ permiso.id }}</a></td>
+                <td>{{ permiso.permisoDe }}</td>
+                <td>{{ permiso.glosa }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('permiso_show', { 'id': permiso.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('permiso_edit', { 'id': permiso.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('permiso_new') }}">Create a new permiso</a>
+        </li>
+    </ul>
+{% endblock %}

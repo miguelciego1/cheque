@@ -1,0 +1,33 @@
+{% extends 'main.html.twig' %}
+{% block css %}
+    {{ form_stylesheet(form) }} {% endblock%}
+{% block js %}
+    {{ form_javascript(form) }}
+{% endblock %}
+
+{% block body %}
+<div class="x_panel">
+    <div class="x_title">
+        <h2> Registrar <small>(Nuevo seguimiento)</small> </h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <div class="col-md-6">
+            {{ form_start(form, {'attr':{'novalidate':'novalidate', 'role' : 'form'} }) }} 
+                {{ form_widget(form) }}
+                <input id="enviar" class="btn btn-primary pull-right" type="submit" value="Guardar" />
+                <a class="btn btn-default pull-right" href="{{ path('movimiento_listado', { 'estado':'1' }) }}"><i class="fa fa-list" aria-hidden="true"></i> Ver Listado </a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+{{ parent() }}
+<script>
+    $("#enviar").on( "click", function() {
+        $(this).hide(); //oculto mediante id
+        //$(this).addClass("disabled"); //desabilita boton
+    });
+</script>
+{% endblock %}

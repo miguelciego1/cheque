@@ -1,0 +1,4 @@
+services:
+#    cpscheque.example:
+#        class: Cps\chequeBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,100 @@
+{% extends 'main.html.twig' %}
+{% block css %}
+    <style>
+    .x_panel{
+        height:800px;
+    }
+    .target{
+        Display:none;
+    }
+    .as{
+        margin-top:10px;
+    }
+    </style>
+    {{ form_stylesheet(edit_form) }}
+{% endblock %} 
+{% block js %}
+    <script>
+        function nobackbutton() {
+            window.location.hash = "no-back-button";
+            window.location.hash = "Again-No-back-button" //chrom
+            window.onhashchange = function () { window.location.hash = "no-back-button"; }
+    
+        }
+    </script>
+    {{ form_javascript(edit_form) }}
+{% endblock %}
+{% block body %}
+<div class="col-md-12 col-ms-12">
+
+        {% for flashMessaje in app.session.flashbag.get ('mensaje')%}
+            <div  class="alert alert-info alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+        {% for flashMessaje in app.session.flashbag.get ('advertencia')%}
+            <div  class="alert alert-warning alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                 {{ flashMessaje}}
+            </div>
+        {% endfor%}
+    <div class="x_panel">
+        <div class="x_title">
+            {# COLOCAR EL TITULO#}
+            <h2>Revisar la edición <strong> "{{ editBen }}"</strong><small></small></h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {#CONTENIDO#}
+                {{ form_start(edit_form) }}
+                
+                 <div class="row">
+                    <div class="form_group as"> 
+                        {{ form_label(edit_form.benficiario, 'Beneficiario :') }}
+                        <div class="col-md-4">
+                            {{ form_errors(edit_form.benficiario) }}
+                            {{ form_widget(edit_form.benficiario,{ 'attr': {'class' :'form-control as', 'placeholder':'Ingresar el Nombre del Beneficiario nuevamente.' }}) }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">   
+                    <div class="form_group as"> 
+                            {{ form_label(edit_form.cheque, 'Nro Cheque :') }}
+                            <div class="col-md-4">
+                                {{ form_errors(edit_form.cheque) }}
+                                {{ form_widget(edit_form.cheque,{ 'attr': {'class' :'form-control as', 'placeholder':'Nro de cheque'} }) }}
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form_group as"> 
+                        {{ form_label(edit_form.monto, 'Monto :') }}
+                        <div class="col-md-4">
+                            {{ form_errors(edit_form.monto) }}
+                            {{ form_widget(edit_form.monto,{ 'attr': {'class' :'form-control as', 'placeholder':'Monto del cheque'} }) }}
+                        </div>
+                    </div>
+                </div>
+                
+               
+                {{ form_widget(edit_form) }}
+                <br></br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="{{ path('cheque_show', { 'id': cheque.id, 'proId': cheque.comprobante.id }) }}" class="btn btn-info pull-right"> Ver Cheque</a>
+                        <input class="btn btn-primary pull-right" type="submit" value="Modificar" />
+                         <a class="btn btn-default pull-right" href="{{ path('cheque_index') }}"><i class="fa fa-reply" aria-hidden="true"></i> 
+                            Volver Atrás</a>
+                    </div>
+                </div>
+            {{ form_end(edit_form) }}
+            
+            <br></br>
+        </div>
+    </div>
+</div>
+{% endblock %}

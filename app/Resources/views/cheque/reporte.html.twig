@@ -1,0 +1,255 @@
+{% extends 'main.html.twig' %} {% block css %}
+<style>
+	.tuplareporte {
+		width: 60px;
+	}
+
+	.tuplareporte2 {
+		width: 120px;
+	}
+
+	.tuplareporte3 {
+		width: 90px;
+	}
+
+	.tuplareporte4 {
+		width: 250px;
+	}
+
+	.amarillo {
+		color: #f0ad4e;
+	}
+
+	.efect {
+		color: #C3C3C3;
+	}
+
+	.azul {
+		color: #337AB7;
+	}
+</style>
+{% endblock%} {% block body %}
+<div class="container noprint">
+	<div class="row tile_count">
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+			<p></p>
+			<div class="count efect">{{ noimpreso }}</div>
+			<span class="count_bottom efect">
+				<i class="">
+					<i class="fa fa-sort-asc"></i>No Impreso </i>
+			</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+			<p></p>
+			<div class="count green">{{ impreso}}</div>
+			<span class="count_bottom">
+				<i class="green">
+					<i class="fa fa-sort-asc"></i>Impreso </i>
+			</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+			<p></p>
+			<div class="count red">{{ anulado }}</div>
+			<span class="count_bottom">
+				<i class="red">
+					<i class="fa fa-sort-desc"></i>Anulado</i>
+			</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+			<p></p>
+			<div class="count amarillo">{{ revertido }}</div>
+			<span class="count_bottom amarillo">
+				<i class="">
+					<i class="fa fa-sort-desc"></i>Revertido</i>
+			</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+			<p></p>
+			<div class="count azul">{{ entregado }}</div>
+			<span class="count_bottom azul">
+				<i class="">
+					<i class="fa fa-sort-desc"></i>Entregado</i>
+			</span>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count gris">
+			<p></p>
+			<div class="count ">{{totales}}</div>
+			<span class="count_bottom">
+				<i class="">
+					<i class="fa fa-pie-chart" aria-hidden="true"></i> Total </i>
+			</span>
+		</div>
+
+	</div>
+</div>
+
+<div class="x_content ">
+
+	<div class="x_title noprint">
+		<h2 class="noprint">Reporte de egresos de banco
+			<small> {{fecha}}</small>
+		</h2>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="print">
+		<div class="containerprint">
+			<img src="{{ asset('logo.png') }}" alt="..." class="imgtitle"></img>
+			<h4 class="rtitle">Reporte de egresos de banco {{fecha}}</h4>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<div class="well noprint">
+						<form method="get" action="" class="form-inline" role="search">Fecha Inicio :
+							<input class="datepicker form-control hasDatepicker " name="fini" type="date" value="{{ app.request.get('fini') }}"></input>
+							Fecha Final:
+							<input class="datepicker form-control hasDatepicker " name="ffin" type="date" value="{{ app.request.get('ffin') }}"></input>
+							<input type="submit" value="Generar" class="btn btn-success" onclick="ocultar()"></input>
+						</form>
+					</div>
+					<table value="tabla1" id="tabla" class="table table-striped table-hover mtop">
+						<thead>
+							<tr>
+								<th>
+									<span class="noprint">DIA</span>
+									<span class="print">DIA</span>
+								</th>
+
+								<th>
+									<span class="noprint">CONCEPTO</span>
+									<span class="print">CONCEPTO</span>
+								</th>
+								</th>
+
+								<th class="tuplareporte4">
+									<span class="noprint">EMPRESA</span>
+									<span class="print">EMPRESA</span>
+								</th>
+
+								<th class="tuplareporte3">
+									<span class="noprint">NRO CHEQUE</span>
+									<span class="print">NRO CHEQUE</span>
+								</th>
+
+								<th class="tuplareporte2">
+									<span class="noprint">NRO CP</span>
+									<span class="print">NRO CP</span>
+								</th>
+
+								<th class="tuplareporte">
+									<span class="noprint">NRO VAL </span>
+									<span class="print"> NRO VAL</span>
+								</th>
+
+								<th>
+									<span class="noprint">HABER</span>
+									<span class="print">HABER</span>
+								</th>
+
+								<th>
+									<span class="noprint">ESTADO</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for cheque in lista %}
+							<tr>
+								<td>
+									{{ cheque.fecha |date('d/m/Y') }}
+								</td>
+								<td class="fila">
+									{% if cheque.estado != 3%} {{ cheque.glosa}} {% endif %} {% if cheque.estado == 3 %}
+									<center>ANULADO</center>
+									{% endif %}
+								</td>
+								<td>
+									{% if cheque.estado != 3 %} {{ cheque.nombre |upper }} {% endif %}
+								</td>
+								<td>{{ cheque.cheque }}</td>
+								<td>
+									{% if cheque.estado != 3 %} {{ cheque.docres }} {% endif %}
+
+								</td>
+								<td>
+									{% if cheque.estado != 3 %} {{ cheque.bte }} {% endif %}
+								</td>
+								<td id="amtlbl">
+									{% if cheque.estado
+									< 3 %} {{ cheque.monto }} {% endif %} {% if cheque.estado==3 or cheque.estado==4 %} 0 {% endif %} </td>
+										<td class="noprint">
+											{% if cheque.estado == 1 %}
+											<span class="label label-default">No impreso</span>
+											{% endif %} {% if cheque.estado == 2 %}
+											<span class="label label-success">Impreso</span>
+											{% endif %} {% if cheque.estado == 3 %}
+											<span class="label label-danger">
+												Anulado</span>
+											{% endif %} {% if cheque.estado == 4 %}
+											<span class="label label-warning">
+												Revertido</span>
+											{% endif %} {% if cheque.estado == 5 %}
+											<span class="label label-primary">
+												Entregado</span>
+											{% endif %}
+										</td>
+							</tr>
+
+							{% endfor %}
+						</tbody>
+
+					</table>
+					<div class="col-md-12 well">
+						<label id="totlbl"></label>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %} {% block javascripts %}
+<script>
+	$('.datepicker').datepicker({
+		locale: 'no',
+		format: 'yyyy-mm-dd'
+	});
+	var clic = 1;
+	function ocultar() {
+		if (clic == 1) {
+			document.getElementById("null").style.height = "200px";
+			clic = clic + 1;
+		} else {
+			document.getElementById("null").style.height = "0px";
+			clic = 1;
+		}
+	}
+	var grandTotal = 0;
+	$(function () {
+		$("[id*=amtlbl]").each(function () {
+			grandTotal = grandTotal + parseFloat($(this).html());
+		});
+		$("[id*=totlbl]").html("Total = " + grandTotal.toString());
+	});
+
+	// Push.create("Caja Petrolera de Salud", {
+	// body: "Se han Actualizado los registros!",
+	// icon: '',
+	// timeout: 4000,
+	//     onClick: function () {
+	//         window.focus();
+	//         this.close();
+	//     }
+	// });
+	$('#totlbl').priceFormat(
+		{ clearPrefix: true }
+	);
+	function tablas() {
+		var yea = document.getElementById("tabla").rows.length;
+		var total2 = yea - 1;
+	}
+</script> {% endblock %}

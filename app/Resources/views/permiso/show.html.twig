@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Permiso</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ permiso.id }}</td>
+            </tr>
+            <tr>
+                <th>Permisode</th>
+                <td>{{ permiso.permisoDe }}</td>
+            </tr>
+            <tr>
+                <th>Glosa</th>
+                <td>{{ permiso.glosa }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('permiso_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('permiso_edit', { 'id': permiso.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

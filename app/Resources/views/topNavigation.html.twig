@@ -1,0 +1,45 @@
+<div class="top_nav">
+  <div class="nav_menu">
+    <nav>
+      <div class="nav toggle">
+        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="">
+          <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <img src="{{ asset('production/images/img.jpg') }}" alt="">
+              Usuario: {{ app.user}}
+            <span class=" fa fa-angle-down"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-usermenu pull-right">
+            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</a></li>
+          </ul>
+        </li>
+        <li>
+          {% if is_granted('ROLE_ADMIN') %}
+            {% elseif is_granted('ROLE_USER') %}
+              {% if app.user.permiso.m1 == 1 %}
+                <a title="Movimientos pendientes" href="{{ path('movimiento_pendiente')}}" class="dropdown-toggle info-number" aria-expanded="false">
+                  <i class="fa fa-inbox"></i>
+                  <span class="badge bg-green">{{ app.session.get('total') }} </span>
+                </a>
+              {% endif %}
+          {% endif %}
+        </li>
+        <li>
+          <a title="Actualizar Pagina" href="javascript:location.reload()">
+           <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a>
+        </li>
+        {% if app.user.servicio.id == 1 %}
+        <li>
+            <a title="Registrar Comprobante" href="{{path('comprobante_new')}}">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
